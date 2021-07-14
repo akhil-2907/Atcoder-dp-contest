@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+vector<int>v[100001];
+int visited[100001]={0};
+int cnt =0;
+int dp[100001];
+ 
+int solve(int node)
+{   
+    if(dp[node]!=-1) return dp[node];
+ 
+    //visited[node]=1;
+    int leaf =1;
+    int best=0;
+    for(auto i: v[node])
+    {
+        leaf=0;
+        best=max(best,solve(i));
+    }
+   
+ 
+    if(leaf==0) return dp[node]=1+best;
+    else return dp[node]=0;
+ 
+}
+ 
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    memset(dp,-1,sizeof(dp));
+ 
+    for(int i=1;i<=m;i++)
+    {
+        int a,b;
+        cin>>a>>b;
+        v[a].push_back(b);
+    }
+    
+    for(int i=1;i<=n;i++)
+    {
+        cnt =max(solve(i),cnt);
+        
+    }
+    cout<<cnt<<endl;
+}

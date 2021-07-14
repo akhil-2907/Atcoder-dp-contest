@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll  long long
+const ll M=1e9+7;
+ 
+ll dp[22][1<<22];
+ll x,r;
+ll solve(ll n, ll mask,vector<vector<ll>>&v)
+{
+    if(n==0)
+    {
+    	if(mask==0) return 1;
+    	else return 0;
+    }
+ 
+    if(dp[n][mask]!=-1) return dp[n][mask];
+ 
+    ll ans = 0;
+ 
+    for(ll k=0;k<r;k++)
+    {
+        if((mask&(1<<k)) && v[n][k+1]==1)
+        {
+            ans= (ans%M+solve(n-1,mask^(1<<k),v)%M)%M;
+        }
+    }
+    return dp[n][mask]=ans;
+}
+ 
+int main()
+{
+    memset(dp,-1,sizeof(dp));
+    ll n;  cin>>n;
+    
+    x= (1<<n)-1;
+    r =n;
+ 
+    vector<vector<ll>>v(n+1,vector<ll>(n+1));
+ 
+    for(ll i=1;i<=n;i++)
+    {
+        for(ll j=1;j<=n;j++)
+        {
+            cin>>v[i][j];
+        }
+    }
+    cout<<solve(n,x,v)%M;
+ 
+}

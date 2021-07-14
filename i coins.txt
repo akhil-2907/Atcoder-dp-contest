@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+vector<double>v(3001);
+double dp[3001][3001];
+double solve(ll n, ll x)
+{
+   if(n==0)
+    {
+        if(x==0) return 1;
+        else return 0;
+    }
+    if(n!=0 && x==0) return 1;
+    if(dp[n][x]>-0.9) return dp[n][x];
+    
+    if(n!=0 && x==0)
+    {
+        return dp[n][x]= (1-v[n])*solve(n-1,x);
+    }
+    return dp[n][x] = v[n]*solve(n-1,x-1)+(1-v[n])*solve(n-1,x);
+}
+ 
+int main()
+{
+    
+ 
+    ll n;  cin>>n;
+    ll x =(n+1)/2;
+    for(ll i=0;i<=n;i++)
+    {
+    	for(ll j=0;j<=x;j++)
+    	{
+    		dp[i][j]=-1;
+    	}
+    }
+    for(ll i=1;i<=n;i++)
+    {
+        cin>>v[i];
+    }
+    cout<<fixed<<setprecision(10)<<solve(n,(n+1)/2);
+ 
+}

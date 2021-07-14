@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+const ll N= 1e5+1;
+const ll M=1e9+7;
+ll dp[1001][1001];
+ 
+ll solve(ll i, ll j,vector<vector<char>>&v)
+{
+    if(i==1&&j==1) return 1;
+ 
+    if(i<1||j<1||v[i][j]=='#')
+    {
+        return 0;
+    }
+    if(dp[i][j]!=-1) return dp[i][j];
+ 
+    return dp[i][j]= (solve(i-1,j,v)%M+solve(i,j-1,v)%M)%M;
+ 
+}
+ 
+ 
+ 
+ 
+int main()
+{
+    memset(dp,-1,sizeof(dp));
+    ll n,m;  cin>>n>>m;
+    vector<vector<char>>v(n+1,vector<char>(m+1));
+ 
+    for(ll i=1;i<=n;i++)
+    {
+        for(ll j=1;j<=m;j++)
+        {
+            cin>>v[i][j];
+        }
+    }
+    cout<<solve(n,m,v)%M;
+}

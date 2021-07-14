@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define inf 1LL<<60
+#define ll long long
+ 
+ll dp[(1<<16)];
+ll sum[(1<<16)];
+ 
+ll calculate(vector<vector<ll>>&v, ll mask)
+{
+    ll ans =0;
+    for(int i=0;i<17;i++)
+    {
+        for( int j=i+1;j<17;j++)
+        {
+            if(((mask&(1<<i))!=0)&&((mask&(1<<j))!=0))
+            {
+                ans += v[i][j];
+            }
+        }
+    }
+    return ans ;
+}
+ 
+void prepare_sum(vector<vector<ll>>&v, ll n)
+{
+	for(ll i=1;i<(1<<n);i++)
+      {
+          dp[i]=inf;
+      }
+     
+ 
+    ll ans =0;
+    for(ll subset =1; subset< (1<<n);subset++)
+    {
+        sum[subset]= calculate(v,subset);
+    }
+}
+ 
+ll solve(vector<vector<ll>>&v,ll mask)
+{
+    
+    
+    if(mask ==0) return 0;
+    
+    if(dp[mask]!=inf) return dp[mask];
+ 
+ 
+    ll ans =0;
+ 
+    for(ll submask =mask;submask!=0;submask =(submask-1)& mask)
+    {
+        ans =max(ans,sum[submask]+solve(v,submask^mask));
+    }
+    return dp[mask]=ans;
+}
+ 
+int main()
+{
+    ll n;  cin>>n;
+ 
+    vector<vector<ll>>v(n,vector<ll>(n));
+ 
+    for(ll i=0;i<n;i++)
+    {
+        for(ll j=0;j<n;j++)
+        {
+            cin>>v[i][j];
+        }
+    }
+     prepare_sum(v,n);
+      
+    cout<<solve(v,(1<<n)-1)<<endl;
+ 
+}

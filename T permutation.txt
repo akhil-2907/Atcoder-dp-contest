@@ -1,0 +1,135 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+const ll M = 1e9+7;
+ 
+ll n;
+ string s;
+ll dp[3001][3001];
+ll solve(ll i,ll g)
+{
+    if(i==n)
+    {
+        if(s[i-2]=='>')
+        {
+            if(g==0) return 1;
+            else return 0;
+        }
+        else
+        {
+            if(g==1) return 1;
+            else return 0;
+        }
+    }
+    
+    if(dp[i][g]!=-1) return dp[i][g];
+    
+    if(g==0)
+       {
+           if(s[i-2]=='<') return dp[i][g]=0;
+            else
+            {
+                ll total =n-i+1;
+                ll ans =0;
+                for(ll j=1;j<=total;j++)
+                {
+                    ans = (ans%M+solve(i+1,total-j)%M)%M;
+                }
+                return dp[i][g]=ans;
+            }
+        }
+        else
+        {
+            if(s[i-2]=='<')
+            {
+                return dp[i][g]=(solve(i,g-1)%M+solve(i+1,g-1)%M)%M;
+            }
+            else
+            {
+                return dp[i][g]=(M+ solve(i,g-1)%M-solve(i+1,g-1)%M)%M;
+            }
+        }
+	}
+ 
+int main()
+{
+    cin>>n;
+    cin>>s;
+    memset(dp,-1,sizeof(dp));
+    ll ans =0;
+ 
+    for(ll i=n-1;i>=0;i--)
+    {
+        ans= (ans%M+solve(2,i)%M)%M;
+ 
+    }
+    cout<<ans<<endl;
+}
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+const ll M = 1e9+7;
+
+ll n;
+ string s;
+ll dp[3001][3001];
+ll solve(ll i,ll g)
+{
+    if(i==n)
+    {
+        if(s[i-2]=='>')
+        {
+            if(g==0) return 1;
+            else return 0;
+        }
+        else
+        {
+            if(g==1) return 1;
+            else return 0;
+        }
+    }
+    
+    if(dp[i][g]!=-1) return dp[i][g];
+    
+    if(g==0)
+       {
+           if(s[i-2]=='<') return dp[i][g]=0;
+            else
+            {
+                ll total =n-i+1;
+                ll ans =0;
+                for(ll j=1;j<=total;j++)
+                {
+                    ans = (ans%M+solve(i+1,total-j)%M)%M;
+                }
+                return dp[i][g]=ans;
+            }
+        }
+        else
+        {
+            if(s[i-2]=='<')
+            {
+                return dp[i][g]=(solve(i,g-1)%M+solve(i+1,g-1)%M)%M;
+            }
+            else
+            {
+                return dp[i][g]=(M+ solve(i,g-1)%M-solve(i+1,g-1)%M)%M;
+            }
+        }
+	}
+
+int main()
+{
+    cin>>n;
+    cin>>s;
+    memset(dp,-1,sizeof(dp));
+    ll ans =0;
+
+    for(ll i=n-1;i>=0;i--)
+    {
+        ans= (ans%M+solve(2,i)%M)%M;
+
+    }
+    cout<<ans<<endl;
+}
+Submission Info

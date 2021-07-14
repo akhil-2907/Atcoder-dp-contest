@@ -1,0 +1,42 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+using namespace std;
+typedef long double ld;
+typedef long long ll;
+const int N=303;
+ 
+int n;
+ 
+ld dp[N][N][N];
+ld rec(int a,int b,int c){
+    if (!a&&!b&&!c)return 0.0;
+    ld &ret=dp[a][b][c];
+    if(ret>=0.0)return ret;
+    ret=1.0;
+	   if(a)ret+=(ld(a)/n)*rec(a-1,b,c);
+    if(b)ret+=(ld(b)/n)*rec(a+1,b-1,c);
+    if(c)ret+=(ld(c)/n)*rec(a,b+1,c-1);
+    ret*=(n/ld(a+b+c));
+    //cout<<ret<<endl;
+    return ret;
+}
+int a,b,c;
+int main(){
+    cout <<fixed <<setprecision(12);
+    cin>>n;
+    for(int i=0;i<n;i++){
+       int k;cin>>k;
+       if(k==1)a++;
+       else if(k==2)b++;
+       else c++;
+    }
+for(int i=0;i<N;i++){
+		for(int j=0;j<N;j++){
+			for(int k=0;k<N;k++){
+				dp[i][j][k]=-1e9;
+			}
+		}
+	}
+	cout<<rec(a,b,c)<<endl;
+}

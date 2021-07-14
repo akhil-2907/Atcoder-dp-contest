@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+#define ll long long
+#define M 1000000007
+ 
+ ll dp[10001][101][2];
+ 
+  ll solve(string s,ll D, ll pos,ll d,bool tight)
+  {
+      if(dp[pos][d][tight]!=-1) return dp[pos][d][tight];
+ 
+      int ub = (tight)?(s[pos]-'0'):9;
+ 
+      if(pos == s.length()-1) 
+      {
+          ll ans =0;
+ 
+          for(ll x =0;x<=ub;x++)
+          {
+              if(x%D==d) ans++;
+              
+          }
+          return ans ;
+      }
+      ll ans =0;
+      for(ll x =0;x<=ub;x++)
+      {
+          ans = (ans+solve(s,D,pos+1,(D+d-x%D)%D,tight&&(x==ub)))%M;
+      }
+      return dp[pos][d][tight]=ans;
+  }
+ 
+int main()
+{
+    string s; cin>>s;
+    ll D;  cin>>D;
+ 
+    memset(dp,-1,sizeof(dp));
+ 
+    cout<<(M+solve(s,D,0,0,1)-1)%M<<endl;
+}

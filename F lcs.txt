@@ -1,0 +1,55 @@
+#include<iostream>
+#include<climits>
+using namespace std;
+ 
+int dp[3001][3001];
+ 
+string ans(string &s,string &t,int len)
+{
+   string res;
+   int i=0,j=0;
+   while(len>0){
+   if(s[i]==t[j]) {
+       res.push_back(s[i]);
+       i++;
+       j++;
+       len--;
+   }
+   else
+   {
+       if(dp[i][j+1]>dp[i+1][j]) j++;
+       else i++;
+   } 
+   }
+   return res;
+}
+ 
+int solve(string &s,string &t,int i,int j)
+{
+    if(i>=s.length()||j>=t.length()) return 0;
+ 
+    if(dp[i][j]!=-1)  return dp[i][j];
+ 
+    if(s[i]==t[j]) return dp[i][j]=1+solve(s,t,i+1,j+1);
+    else
+    {
+        return dp[i][j]=max(solve(s,t,i+1,j),solve(s,t,i,j+1));
+    }
+}
+ 
+int main()
+{
+    string s,t;  cin>>s>>t;
+ 
+   for(int i=0;i<3001;i++)
+   {
+   	for(int j=0;j<3001;j++)
+   	{
+   		dp[i][j]=-1;
+   	}
+   }
+ 
+    int len =solve(s,t,0,0);
+ 
+    cout<<ans(s,t,len);
+}
